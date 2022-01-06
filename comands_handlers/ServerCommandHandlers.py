@@ -22,3 +22,8 @@ class ServerCommandHandlers:
     async def status(ctx: commands.context.Context):
         await ctx.send(BotMessagesStrings.status_on_message if ServerCommandHandlers.minecraft_server.is_launched()
                        else BotMessagesStrings.status_off_message)
+
+    @staticmethod
+    async def sleep(ctx: commands.context.Context):
+        ServerCommandHandlers.minecraft_server.execute_command('time set day')
+        await ctx.send(BotMessagesStrings.sleep_message)

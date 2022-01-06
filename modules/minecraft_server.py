@@ -21,3 +21,8 @@ class MinecraftServer:
     def stop_server(self):
         assert self.is_launched(), 'Сервер должен быть запущен!'
         self.minecraft_process.communicate(input=b'stop')
+
+    def execute_command(self, command: str):
+        self.minecraft_process.stdin.write(('%s\n' % command).encode())
+        self.minecraft_process.stdin.flush()
+

@@ -12,6 +12,8 @@ async def server(ctx: commands.context.Context, arg):
             await ServerCommandHandlers.stop(ctx)
         elif arg == 'status':
             await ServerCommandHandlers.status(ctx)
+        elif arg == 'sleep':
+            await ServerCommandHandlers.sleep(ctx)
 
     except Exception as e:
         await ctx.send("Произошла ошибка:\n" + str(e))
