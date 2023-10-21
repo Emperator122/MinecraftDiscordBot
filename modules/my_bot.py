@@ -14,6 +14,7 @@ class MyBot(commands.Bot):
         self.msg_sent = False
 
     async def on_ready(self):
+        await self.tree.sync()
         await self.message_queue_extract_handler.start()
 
     @tasks.loop(seconds=1)

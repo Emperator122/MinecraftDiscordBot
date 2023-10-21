@@ -1,24 +1,48 @@
+from typing import List
+
+import discord
 from discord.ext import commands
+import discord.app_commands as app_commands
 from comands_handlers.ServerCommandHandlers import ServerCommandHandlers
 from comands_handlers.HelpCommandHandlers import HelpCommandHandlers
 
 
-@commands.command()
-async def server(ctx: commands.context.Context, arg):
-    try:
-        if arg == 'start':
-            await ServerCommandHandlers.start(ctx)
-        elif arg == 'stop':
-            await ServerCommandHandlers.stop(ctx)
-        elif arg == 'status':
-            await ServerCommandHandlers.status(ctx)
-        elif arg == 'sleep':
-            await ServerCommandHandlers.sleep(ctx)
+async def mc_server_action_autocomplete(
+        interaction: discord.Interaction,
+        current: str,
+) -> List[app_commands.Choice[str]]:
+    actions = ['start', 'stop', 'sleep', 'status']
+    return [
+        app_commands.Choice(name=action, value=action)
+        for action in actions if current.lower() in action.lower()
+    ]
 
+
+@commands.hybrid_command(name='server', with_app_command=True,
+                         description='Команды, связанные с управлением сервером: включение, выключение, статус, сон')
+@app_commands.autocomplete(action=mc_server_action_autocomplete)
+async def server(ctx: commands.context.Context, action: str):
+    try:
+        if action == 'start':
+            await ServerCommandHandlers.start(ctx)
+        elif action == 'stop':
+            await ServerCommandHandlers.stop(ctx)
+        elif action == 'status':
+            await ServerCommandHandlers.status(ctx)
+        elif action == 'sleep':
+            await ServerCommandHandlers.sleep(ctx)
     except Exception as e:
         await ctx.send("Произошла ошибка:\n" + str(e))
 
 
-@commands.command()
+@commands.hybrid_command(name='sleep', with_app_command=True, description='Делает утро на сервере')
+async def sleep(ctx: commands.context.Context):
+    try:
+        await ServerCommandHandlers.sleep(ctx)
+    except Exception as e:
+        await ctx.send("Произошла ошибка:\n" + str(e))
+
+
+@commands.hybrid_command(name='help', with_app_command=True, description='Список основных команд')
 async def help(ctx: commands.context.Context):
     await HelpCommandHandlers.show_help(ctx)

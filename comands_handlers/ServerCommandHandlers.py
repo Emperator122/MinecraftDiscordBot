@@ -1,6 +1,6 @@
+from config.minecraft_server_config import MinecraftServerConfig as mConfig
 from modules.minecraft_server import MinecraftServer
 from discord.ext import commands
-from config.minecraft_server_config import MinecraftServerConfig as mConfig
 from res.resources import BotMessagesStrings
 from modules.minecraft_server_logger import MinecraftServerLogger
 
