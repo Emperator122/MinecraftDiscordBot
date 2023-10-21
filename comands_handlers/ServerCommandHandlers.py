@@ -2,10 +2,12 @@ from modules.minecraft_server import MinecraftServer
 from discord.ext import commands
 from config.minecraft_server_config import MinecraftServerConfig as mConfig
 from res.resources import BotMessagesStrings
+from modules.minecraft_server_logger import MinecraftServerLogger
 
 
 class ServerCommandHandlers:
-    minecraft_server = MinecraftServer(mConfig.launch_file_path)
+    minecraft_server = MinecraftServer(mConfig.launch_file_path,
+                                       on_console_log_message=MinecraftServerLogger.on_console_log_message)
 
     @staticmethod
     async def start(ctx: commands.context.Context):
@@ -25,5 +27,5 @@ class ServerCommandHandlers:
 
     @staticmethod
     async def sleep(ctx: commands.context.Context):
-        ServerCommandHandlers.minecraft_server.execute_command('time set day')
+        ServerCommandHandlers.minecraft_server.execute_command('time set 0')
         await ctx.send(BotMessagesStrings.sleep_message)
