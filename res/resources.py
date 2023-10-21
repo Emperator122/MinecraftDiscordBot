@@ -6,6 +6,7 @@ class BotMessagesStrings:
     not_success_stop_message = 'Сервер уже выключен.'
     status_on_message = 'Сервер онлайн.'
     status_off_message = 'Сервер оффлайн.'
+
     help_title = 'Список команд:\r\n'
     help_commands_list = {
         'server start': 'Запуск сервера;',
@@ -18,6 +19,11 @@ class BotMessagesStrings:
         'help': 'Помощь.',
     }
     sleep_message = 'Сервер успешно поспал!'
+    task_get_players_count_message = 'Задача получения информации о количестве игроков отправлена на сервер...'
+
+    @staticmethod
+    def get_players_count_message(players_count):
+        return f"Количество игроков на сервере: {players_count}"
 
 
 class BotMessagesStyles:

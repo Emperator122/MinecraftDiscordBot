@@ -8,6 +8,7 @@ from queue import Queue
 class MyBot(commands.Bot):
     lock = threading.Lock()
     message_queue: Queue[SendMessageDto] = Queue()
+    minecraft_server_command_queue: Queue[SendMessageDto] = Queue()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

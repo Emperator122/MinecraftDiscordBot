@@ -11,7 +11,7 @@ async def mc_server_action_autocomplete(
         interaction: discord.Interaction,
         current: str,
 ) -> List[app_commands.Choice[str]]:
-    actions = ['start', 'stop', 'sleep', 'status']
+    actions = ['start', 'stop', 'sleep', 'status', 'players_count']
     return [
         app_commands.Choice(name=action, value=action)
         for action in actions if current.lower() in action.lower()
@@ -19,7 +19,8 @@ async def mc_server_action_autocomplete(
 
 
 @commands.hybrid_command(name='server', with_app_command=True,
-                         description='Команды, связанные с управлением сервером: включение, выключение, статус, сон')
+                         description='Команды, связанные с управлением сервером: включение, выключение, статус, сон, '
+                                     'количество игроков')
 @app_commands.autocomplete(action=mc_server_action_autocomplete)
 async def server(ctx: commands.context.Context, action: str):
     try:
@@ -31,6 +32,8 @@ async def server(ctx: commands.context.Context, action: str):
             await ServerCommandHandlers.status(ctx)
         elif action == 'sleep':
             await ServerCommandHandlers.sleep(ctx)
+        elif action == 'players_count':
+            await ServerCommandHandlers.players_count(ctx)
     except Exception as e:
         await ctx.send("Произошла ошибка:\n" + str(e))
 
